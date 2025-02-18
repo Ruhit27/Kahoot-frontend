@@ -1,30 +1,33 @@
 import { NextResponse } from "next/server";
 
 export function middleware(request) {
-  const url = request.url; // Get the current URL
-  const hasAccess = request.cookies.get("hasAccess"); // Get the 'hasAccess' cookie
-  const cookies = request.cookies;
-  const isAuthenticated = cookies.get("isAuthenticated"); // Get the 'isAuthenticated' cookie
+  const url = request.nextUrl; // Use nextUrl for better handling
+  const hasAccessCookie = request.cookies.get("hasAccess");
+  const isAuthenticatedCookie = request.cookies.get("isAuthenticated");
 
-  console.log("Requested URL:", url);
-  console.log("Has access cookie:", hasAccess);
+  const hasAccess = hasAccessCookie ? hasAccessCookie.value : null;
+  const isAuthenticated = isAuthenticatedCookie
+    ? isAuthenticatedCookie.value
+    : null;
 
-  if (!isAuthenticated && url.includes("/admin")) {
-    const redirectUrl = new URL("/login", request.url); // Redirect to homepage
-    console.log("Redirecting to homepage (no access):", redirectUrl); // Log the redirect
-    return NextResponse.redirect(redirectUrl); // Perform the redirect
+  console.log("Requested URL:", url.pathname);
+  console.log("Has access:", hasAccess);
+  console.log("Is authenticated:", isAuthenticated);
+
+  // Restrict access to "/admin" unless authenticated
+  if (!isAuthenticated && url.pathname.startsWith("/admin")) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // if (url.includes("/quizz") && hasAccess !== "true") {
-  //   const redirectUrl = new URL("/", request.url); // Redirect to homepage
-  //   console.log("Redirecting to homepage (no access):", redirectUrl); // Log the redirect
-  //   return NextResponse.redirect(redirectUrl); // Perform the redirect
-  // }
+  // Restrict access to "/quizz" unless "hasAccess" is set to "true"
+  if (url.pathname.startsWith("/quizz") && hasAccess !== "true") {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
   return NextResponse.next();
 }
 
-// Apply middleware to all routes
+// Apply middleware to specific routes
 export const config = {
   matcher: ["/quizz", "/admin"],
 };

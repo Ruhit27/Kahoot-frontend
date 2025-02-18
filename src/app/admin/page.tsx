@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import { IoIosHome } from "react-icons/io";
+
 import axios from "axios";
 import Link from "next/link";
 import { NeonGradientCard } from "@/components/magicui/neon-gradient-card";
@@ -38,13 +40,17 @@ export default function Admin() {
   return (
     <div className="min-h-screen flex flex-col justify-center items-center">
       <NeonGradientCard className=" w-[450px] h-[390px] flex flex-col justify-center align-middle">
-        <TypingAnimation
-          className="text-4xl font-bold text-center text-gray-800 mb-8"
-          duration={300}
-        >
-          Admin
-        </TypingAnimation>
-
+        <div className="flex justify-center gap-10 ">
+          <TypingAnimation
+            className="text-4xl font-bold text-center text-gray-800 mb-8"
+            duration={300}
+          >
+            Admin
+          </TypingAnimation>
+          <Link href={"/"}>
+            <IoIosHome size={40} />
+          </Link>
+        </div>
         <div className="space-y-6">
           <Link href="/admin/quizz">
             <div className="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition duration-300 ease-in-out text-center cursor-pointer">

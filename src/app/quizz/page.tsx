@@ -1,10 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
+import { IoIosHome } from "react-icons/io";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { NeonGradientCard } from "@/components/magicui/neon-gradient-card";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
 import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { deleteCookie } from "cookies-next";
 
 export default function QuizApp() {
   const [quizzes, setQuizzes] = useState([]);
@@ -12,6 +16,10 @@ export default function QuizApp() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [userAnswers, setUserAnswers] = useState([]);
   const [showResult, setShowResult] = useState(false);
+
+  const logoutFromQuiz = () => {
+    deleteCookie("hasAccess");
+  };
 
   // Fetch quizzes from the API
   useEffect(() => {
@@ -80,6 +88,9 @@ export default function QuizApp() {
 
   return (
     <div className="h-screen ">
+      <Link className="flex justify-end mr-20 " href={"/"}>
+        <IoIosHome onClick={logoutFromQuiz} size={40} />
+      </Link>
       <ToastContainer />
 
       {!showResult ? (
@@ -127,7 +138,7 @@ export default function QuizApp() {
           </NeonGradientCard>
         </div>
       ) : (
-        <NeonGradientCard className="result-card   rounded-lg h-min  max-w-md mx-auto mt-32">
+        <NeonGradientCard className="result-card   rounded-lg h-min  max-w-md mx-auto mt-2">
           <h2 className="text-3xl font-bold mb-4 text-center">Quiz Results</h2>
           <p className="text-lg mb-2">
             Correct Answers: {getCorrectAnswersCount()}

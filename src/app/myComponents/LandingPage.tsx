@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { setCookie } from "cookies-next";
+import { setCookie, getCookie, deleteCookie } from "cookies-next";
 import { NeonGradientCard } from "@/components/magicui/neon-gradient-card";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
 import pythonLogo from "@/app/assets/python-logo-svg.svg";
@@ -12,6 +12,7 @@ export const LandingPage = () => {
   const [gameCodes, setGameCodes] = useState<{ code: string }[]>([]);
   const [inputCode, setInputCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -22,10 +23,12 @@ export const LandingPage = () => {
         setGameCodes(data);
       })
       .catch((error) => console.error("Error fetching game codes:", error));
+
+    // Check if the user is logged in
+    setIsAuthenticated(getCookie("isAuthenticated") === "true");
   }, []);
 
   const handleJoinGame = () => {
-    //console.log(typeof inputCode);
     const isValidCode = gameCodes.some((item) => item.code === inputCode);
 
     if (isValidCode) {
@@ -42,28 +45,38 @@ export const LandingPage = () => {
     }
   };
 
+  const handleLogout = () => {
+    deleteCookie("isAuthenticated");
+    setIsAuthenticated(false);
+  };
+
   return (
     <div
       className={`h-screen bg-white flex flex-col justify-center items-center text-black transition-opacity ${
         isLoading ? "opacity-0" : "opacity-100"
       } duration-1000`}
     >
-      {/* Login and Signup Buttons */}
+      {/* Login and Logout Button */}
       <div className="absolute top-6 right-6 flex gap-4">
-        <Link
-          href={"/login"}
-          className="px-6 py-2 bg-transparent border-2 border-[#0020dd] text-black rounded-md hover:bg-[#0020dd] hover:text-white transition duration-300 hover:scale-125"
-        >
-          Login
-        </Link>
+        {isAuthenticated ? (
+          <button
+            onClick={handleLogout}
+            className="px-6 py-2 bg-transparent border-2 border-red-500 text-black rounded-md hover:bg-red-500 hover:text-white transition duration-300 hover:scale-125"
+          >
+            Logout
+          </button>
+        ) : (
+          <Link
+            href={"/login"}
+            className="px-6 py-2 bg-transparent border-2 border-[#0020dd] text-black rounded-md hover:bg-[#0020dd] hover:text-white transition duration-300 hover:scale-125"
+          >
+            Login
+          </Link>
+        )}
       </div>
 
       {/* Main Content */}
-
-      <NeonGradientCard className=" w-[350px] h-[290px] flex flex-col justify-center align-middle">
-        {/* <h1 className="mt-3 text-5xl font-bold text-center mb-5 bg-gradient-to-r from-[#0020dd] via-[#ab00a9] to-[#cc0000] bg-clip-text text-transparent">
-            PyQuIzZ
-          </h1> */}
+      <NeonGradientCard className="w-[350px] h-[290px] flex flex-col justify-center align-middle">
         <Image
           src={pythonLogo}
           alt="python Image"

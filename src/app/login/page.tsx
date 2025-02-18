@@ -69,13 +69,6 @@ export default function LoginPage() {
             </button>
           </div>
         </form>
-
-        <p className="text-center text-gray-600 mt-2 ">
-          Don't have an account?{" "}
-          <a href="/signup" className="text-blue-600 hover:underline">
-            Sign up here
-          </a>
-        </p>
       </NeonGradientCard>
       {error && <p className="text-red-500 text-center mb-4">{error}</p>}
     </div>
