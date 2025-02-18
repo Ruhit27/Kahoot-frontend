@@ -7,6 +7,7 @@ import { NeonGradientCard } from "@/components/magicui/neon-gradient-card";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
 import pythonLogo from "@/app/assets/python-logo-svg.svg";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 export const LandingPage = () => {
   const [gameCodes, setGameCodes] = useState<{ code: string }[]>([]);
@@ -73,6 +74,13 @@ export const LandingPage = () => {
             Login
           </Link>
         )}
+
+        <Link
+          href={"/admin"}
+          className="px-6 py-2 bg-transparent border-2 border-[#0020dd] text-black rounded-md hover:bg-[#0020dd] hover:text-white transition duration-300 hover:scale-125"
+        >
+          Admin Panel
+        </Link>
       </div>
 
       {/* Main Content */}
