@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import { NeonGradientCard } from "@/components/magicui/neon-gradient-card";
+import { TypingAnimation } from "@/components/magicui/typing-animation";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function QuizApp() {
@@ -77,51 +79,55 @@ export default function QuizApp() {
   }
 
   return (
-    <div className="h-screen container mx-auto p-6 bg-gradient-to-r from-blue-400 to-purple-500 rounded-lg shadow-lg">
+    <div className="h-screen ">
       <ToastContainer />
 
       {!showResult ? (
-        <div className="quiz-card p-6 rounded-lg shadow-lg bg-white max-w-md mx-auto mt-24">
-          <h2 className="text-2xl font-bold mb-4 text-center">
-            Question {currentQuestion + 1}
-          </h2>
-          <p className="text-lg mb-4">{quizzes[currentQuestion].question}</p>
-          <div className="space-y-4">
-            {quizzes[currentQuestion].options.map((option, idx) => (
-              <div
-                key={idx}
-                className={`p-3 cursor-pointer rounded-md hover:bg-blue-200 transition-colors ${
-                  selectedOption === option
-                    ? "bg-blue-300 border-2 border-blue-500"
-                    : ""
-                }`}
-                onClick={() => setSelectedOption(option)}
-              >
-                {option}
-              </div>
-            ))}
-          </div>
+        <div className="flex justify-center align-middle">
+          <NeonGradientCard className="quiz-card  rounded-lg   max-w-md mx-auto mt-32">
+            <h2 className="text-2xl font-bold mb-4 text-left border border-b-2 border-black py-2 px-4 w-max">
+              Question {currentQuestion + 1}
+            </h2>
+            <p className="text-lg mb-4  ">
+              {quizzes[currentQuestion].question}
+            </p>
+            <div className="space-y-4 ">
+              {quizzes[currentQuestion].options.map((option, idx) => (
+                <div
+                  key={idx}
+                  className={`p-3 cursor-pointer rounded-md border border-b-2 border-black py-2 px-4 hover:bg-blue-200 transition-colors ${
+                    selectedOption === option
+                      ? "bg-blue-300 border-2 border-blue-500"
+                      : ""
+                  }`}
+                  onClick={() => setSelectedOption(option)}
+                >
+                  {option}
+                </div>
+              ))}
+            </div>
 
-          <div className="flex justify-between mt-6">
-            {currentQuestion > 0 && (
+            <div className="flex justify-between mt-6">
+              {currentQuestion > 0 && (
+                <button
+                  onClick={handlePrevious}
+                  className="px-4 py-2 bg-gray-300 text-black rounded-md transition-all hover:bg-gray-400"
+                >
+                  Previous
+                </button>
+              )}
+
               <button
-                onClick={handlePrevious}
-                className="px-4 py-2 bg-gray-300 text-black rounded-md transition-all hover:bg-gray-400"
+                onClick={handleNext}
+                className="px-4 py-2 bg-blue-500 text-white rounded-md transition-all hover:bg-blue-600"
               >
-                Previous
+                Next
               </button>
-            )}
-
-            <button
-              onClick={handleNext}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md transition-all hover:bg-blue-600"
-            >
-              Next
-            </button>
-          </div>
+            </div>
+          </NeonGradientCard>
         </div>
       ) : (
-        <div className="result-card p-6 rounded-lg shadow-lg bg-white max-w-md mx-auto ">
+        <NeonGradientCard className="result-card   rounded-lg h-min  max-w-md mx-auto mt-32">
           <h2 className="text-3xl font-bold mb-4 text-center">Quiz Results</h2>
           <p className="text-lg mb-2">
             Correct Answers: {getCorrectAnswersCount()}
@@ -153,7 +159,7 @@ export default function QuizApp() {
           >
             Restart Quiz
           </button>
-        </div>
+        </NeonGradientCard>
       )}
     </div>
   );
