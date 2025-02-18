@@ -2,11 +2,16 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { setCookie } from "cookies-next";
+import { NeonGradientCard } from "@/components/magicui/neon-gradient-card";
+import { TypingAnimation } from "@/components/magicui/typing-animation";
+import pythonLogo from "@/app/assets/python-logo-svg.svg";
+import Image from "next/image";
 
 export const LandingPage = () => {
   const [gameCodes, setGameCodes] = useState<{ code: string }[]>([]);
   const [inputCode, setInputCode] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // ✅
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -20,13 +25,16 @@ export const LandingPage = () => {
   }, []);
 
   const handleJoinGame = () => {
-    console.log(typeof inputCode);
+    //console.log(typeof inputCode);
     const isValidCode = gameCodes.some((item) => item.code === inputCode);
 
     if (isValidCode) {
+      setCookie("hasAccess", "true", { maxAge: 600 });
       setIsLoading(true);
       setTimeout(() => {
+        console.log("landingPage");
         router.push("/quizz");
+        setIsLoading(false);
       }, 1500);
     } else {
       alert("Invalid game code. Please try again.");
@@ -36,7 +44,7 @@ export const LandingPage = () => {
 
   return (
     <div
-      className={`h-screen bg-gradient-to-r from-blue-400 to-purple-500 flex flex-col justify-center items-center text-black transition-opacity ${
+      className={`h-screen bg-white flex flex-col justify-center items-center text-black transition-opacity ${
         isLoading ? "opacity-0" : "opacity-100"
       } duration-1000`}
     >
@@ -44,34 +52,46 @@ export const LandingPage = () => {
       <div className="absolute top-6 right-6 flex gap-4">
         <Link
           href={"/login"}
-          className="px-6 py-2 bg-transparent border-2 border-white text-white rounded-md hover:bg-white hover:text-black transition duration-300"
+          className="px-6 py-2 bg-transparent border-2 border-[#0020dd] text-black rounded-md hover:bg-[#0020dd] hover:text-white transition duration-300 hover:scale-125"
         >
           Login
         </Link>
       </div>
 
       {/* Main Content */}
-      <div className="bg-white w-[30%] h-56 p-10 flex rounded-xl flex-col justify-center">
-        <h1 className="text-5xl font-bold text-center mb-6 bg-gradient-to-r from-pink-500 via-purple-600 to-yellow-300 bg-clip-text text-transparent">
+
+      <NeonGradientCard className=" w-[350px] h-[290px] flex flex-col justify-center align-middle">
+        {/* <h1 className="mt-3 text-5xl font-bold text-center mb-5 bg-gradient-to-r from-[#0020dd] via-[#ab00a9] to-[#cc0000] bg-clip-text text-transparent">
+            PyQuIzZ
+          </h1> */}
+        <Image
+          src={pythonLogo}
+          alt="python Image"
+          className="w-10 absolute top-10 left-10"
+        />
+        <TypingAnimation
+          className="mt-3 ml-7 text-5xl font-bold text-center mb-5 bg-gradient-to-r from-[#0020dd] via-[#ab00a9] to-[#cc0000] bg-clip-text text-transparent"
+          duration={200}
+        >
           PyQuIzZ
-        </h1>
+        </TypingAnimation>
 
         <input
           type="text"
           value={inputCode}
           onChange={(e) => setInputCode(e.target.value)}
           placeholder="Enter game code"
-          className="px-4 py-2 rounded text-black mb-4 border border-black"
+          className="px-10 ml-5 mt-3 py-2 rounded text-black mb-4 border border-black"
         />
         <div className="flex justify-center">
           <button
             onClick={handleJoinGame}
-            className="w-1/2 px-6 py-2 rounded-md bg-gradient-to-r from-pink-500 to-black text-white hover:opacity-90 transition-transform transform hover:scale-105"
+            className="w-1/2 px-6 mt-5 py-2 rounded-md bg-gradient-to-r from-[#0020dd] via-[#ab00a9] to-[#cc0000] text-white hover:opacity-90 transition-transform transform hover:scale-105"
           >
             {isLoading ? "Joining..." : "Join Game"}
           </button>
         </div>
-      </div>
+      </NeonGradientCard>
     </div>
   );
 };
