@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
 import { NeonGradientCard } from "@/components/magicui/neon-gradient-card";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
+import { Particles } from "@/components/magicui/particles";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -33,7 +34,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="h-screen flex flex-col justify-center items-center text-black">
+    <div className="relative h-screen flex flex-col justify-center items-center text-black">
+      <Particles
+        quantity={300}
+        ease={100}
+        color="black"
+        className="absolute inset-0 "
+      />
       <NeonGradientCard className=" w-[350px] h-[290px] flex flex-col justify-center align-middle">
         {/* <h1 className="text-4xl font-bold text-center mb-6">Login</h1> */}
         <TypingAnimation
