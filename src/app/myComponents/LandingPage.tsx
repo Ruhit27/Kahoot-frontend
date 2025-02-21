@@ -8,6 +8,7 @@ import { TypingAnimation } from "@/components/magicui/typing-animation";
 import pythonLogo from "@/app/assets/python-logo-svg.svg";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import { AboutUs } from "../AboutUs/AboutUs";
 
 export const LandingPage = () => {
   const [gameCodes, setGameCodes] = useState<{ code: string }[]>([]);
@@ -113,6 +114,7 @@ export const LandingPage = () => {
           </button>
         </div>
       </NeonGradientCard>
+      <Link href={"/AboutUs"}>Created By: Sam</Link>
     </div>
   );
 };

@@ -15,7 +15,7 @@ export function middleware(request) {
   console.log("Is authenticated:", isAuthenticated);
 
   // Restrict access to "/admin" unless authenticated
-  if (!isAuthenticated && url.pathname.startsWith("/admin")) {
+  if (!isAuthenticated && url.pathname.includes("/admin")) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
