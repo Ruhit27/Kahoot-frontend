@@ -8,7 +8,7 @@ import { TypingAnimation } from "@/components/magicui/typing-animation";
 import pythonLogo from "@/app/assets/python-logo-svg.svg";
 import Image from "next/image";
 import { toast } from "react-toastify";
-import { AboutUs } from "../AboutUs/AboutUs";
+import { AboutUs } from "../about/AboutUs";
 
 export const LandingPage = () => {
   const [gameCodes, setGameCodes] = useState<{ code: string }[]>([]);
@@ -59,7 +59,7 @@ export const LandingPage = () => {
       } duration-1000`}
     >
       {/* Login and Logout Button */}
-      <div className="absolute top-6 right-6 flex gap-4">
+      <div className="absolute top-6 right-6 flex gap-8 mr-5">
         {isAuthenticated ? (
           <button
             onClick={handleLogout}
@@ -81,6 +81,12 @@ export const LandingPage = () => {
           className="px-6 py-2 bg-transparent border-2 border-[#0020dd] text-black rounded-md hover:bg-[#0020dd] hover:text-white transition duration-300 hover:scale-125"
         >
           Admin Panel
+        </Link>
+        <Link
+          href={"/about"}
+          className="px-6 py-2 bg-transparent border-2 border-[#0020dd] text-black rounded-md hover:bg-[#0020dd] hover:text-white transition duration-300 hover:scale-125"
+        >
+          About
         </Link>
       </div>
 

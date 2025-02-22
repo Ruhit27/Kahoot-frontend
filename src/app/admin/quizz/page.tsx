@@ -4,6 +4,8 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminQuestionCard from "@/app/myComponents/AdminQuestionCard";
+import Link from "next/link";
+import { IoIosHome } from "react-icons/io";
 
 const QuizAdmin = () => {
   const [question, setQuestion] = useState("");
@@ -53,7 +55,10 @@ const QuizAdmin = () => {
 
   return (
     <div>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 text-black">
+      <Link className="flex justify-end mr-20" href={"/"}>
+        <IoIosHome size={40} />
+      </Link>
+      <div className="min-h-screen flex items-center justify-center  text-black">
         <div className="bg-white p-6 rounded-lg shadow-xl w-[90%] md:w-[50%]">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
             Admin Quiz Creator
