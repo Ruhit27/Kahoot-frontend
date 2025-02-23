@@ -4,24 +4,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Trash2 } from "lucide-react";
 
-interface Quiz {
-  _id: string;
-  question: string;
-  options: string[];
-  answer: string;
-}
-
 export default function AdminQuestionCard() {
-  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+  const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [isDeleting, setIsDeleting] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [error, setError] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const fetchQuizzes = async () => {
     try {
       setLoading(true);
-      const response = await axios.get<Quiz[]>(
+      const response = await axios.get(
         "https://kahoot-backend-pi.vercel.app/getAllQuizz"
       );
       setQuizzes(response.data);
@@ -37,7 +30,7 @@ export default function AdminQuestionCard() {
     fetchQuizzes();
   }, []);
 
-  const handleDelete = async (_id: string) => {
+  const handleDelete = async (_id) => {
     try {
       setIsDeleting(_id);
       setError(null);

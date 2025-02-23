@@ -12,7 +12,7 @@ const QuizAdmin = () => {
   const [options, setOptions] = useState(["", "", "", ""]);
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
-  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+  const [quizzes, setQuizzes] = useState([]);
 
   const handleOptionChange = (index, value) => {
     const newOptions = [...options];
