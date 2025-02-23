@@ -22,6 +22,19 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/app/about/page.jsx",
+    "src/app/admin/page.jsx",
+    "src/app/login/page.jsx",
+    "src/app/quizz/page.jsx",
+    "src/app/page.jsx",
+    "src/app/admin/quizz/page.jsx",
+    "src/app/myComponents/LandingPage.jsx",
+    "src/app/myComponents/AdminQuestionCard.jsx"
+  ],
   "exclude": ["node_modules"]
 }
