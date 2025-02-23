@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 
 // Store Python logo locally in your public folder as 'python-logo.svg'
-const PYTHON_LOGO = "/python-logo.svg"; // You'll need to add this file to your public folder
 
 const GameFeatures = [
   {
