@@ -1,36 +1,31 @@
 "use client";
 import { useState, useEffect } from "react";
 import { IoIosHome } from "react-icons/io";
-
 import axios from "axios";
 import Link from "next/link";
 import { NeonGradientCard } from "@/components/magicui/neon-gradient-card";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
 
 export default function Admin() {
-  const [code, setCode] = useState(null);
+  const [code, setCode] = useState(""); // Changed initialization
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Load the code from localStorage on component mount
   useEffect(() => {
     const storedCode = localStorage.getItem("generatedCode");
     if (storedCode) {
-      setCode(storedCode); // Load the saved code from localStorage
+      setCode(storedCode);
     }
   }, []);
 
-  // Function to fetch the generated code
   const handleGenerateCode = async () => {
     setLoading(true);
     try {
       const res = await axios.post(
         "https://kahoot-backend-pi.vercel.app/generateCode"
       );
-      const generatedCode = res.data.code; // Assuming the response contains a field `code`
+      const generatedCode = res.data.code;
       setCode(generatedCode);
-
-      // Store the generated code in localStorage
       localStorage.setItem("generatedCode", generatedCode);
     } catch (err) {
       setError("Failed to generate code!");
