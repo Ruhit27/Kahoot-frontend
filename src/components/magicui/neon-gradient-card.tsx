@@ -1,6 +1,6 @@
 "use client";
 
-import {
+import React, {
   CSSProperties,
   ReactElement,
   ReactNode,
@@ -16,58 +16,16 @@ interface NeonColorsProps {
   secondColor: string;
 }
 
-interface NeonGradientCardProps {
-  /**
-   * @default <div />
-   * @type ReactElement
-   * @description
-   * The component to be rendered as the card
-   * */
-  as?: ReactElement;
-  /**
-   * @default ""
-   * @type string
-   * @description
-   * The className of the card
-   */
+interface NeonGradientCardProps extends React.HTMLAttributes<HTMLDivElement> {
+  as?: React.ElementType | ReactElement; // Changed this line
   className?: string;
-
-  /**
-   * @default ""
-   * @type ReactNode
-   * @description
-   * The children of the card
-   * */
   children?: ReactNode;
-
-  /**
-   * @default 5
-   * @type number
-   * @description
-   * The size of the border in pixels
-   * */
   borderSize?: number;
-
-  /**
-   * @default 20
-   * @type number
-   * @description
-   * The size of the radius in pixels
-   * */
   borderRadius?: number;
-
-  /**
-   * @default "{ firstColor: '#ff00aa', secondColor: '#00FFF1' }"
-   * @type string
-   * @description
-   * The colors of the neon gradient
-   * */
   neonColors?: NeonColorsProps;
-
-  [key: string]: any;
 }
 
-export const NeonGradientCard: React.FC<NeonGradientCardProps> = ({
+export const NeonGradientCard = ({
   className,
   children,
   borderSize = 2,
@@ -77,9 +35,12 @@ export const NeonGradientCard: React.FC<NeonGradientCardProps> = ({
     secondColor: "#00FFF1",
   },
   ...props
-}) => {
+}: NeonGradientCardProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [dimensions, setDimensions] = useState<{
+    width: number;
+    height: number;
+  }>({ width: 0, height: 0 });
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -104,27 +65,27 @@ export const NeonGradientCard: React.FC<NeonGradientCardProps> = ({
     }
   }, [children]);
 
+  const customStyles: CSSProperties = {
+    "--border-size": `${borderSize}px`,
+    "--border-radius": `${borderRadius}px`,
+    "--neon-first-color": neonColors.firstColor,
+    "--neon-second-color": neonColors.secondColor,
+    "--card-width": `${dimensions.width}px`,
+    "--card-height": `${dimensions.height}px`,
+    "--card-content-radius": `${borderRadius - borderSize}px`,
+    "--pseudo-element-background-image": `linear-gradient(0deg, ${neonColors.firstColor}, ${neonColors.secondColor})`,
+    "--pseudo-element-width": `${dimensions.width + borderSize * 2}px`,
+    "--pseudo-element-height": `${dimensions.height + borderSize * 2}px`,
+    "--after-blur": `${dimensions.width / 3}px`,
+  } as CSSProperties;
+
   return (
     <div
       ref={containerRef}
-      style={
-        {
-          "--border-size": `${borderSize}px`,
-          "--border-radius": `${borderRadius}px`,
-          "--neon-first-color": neonColors.firstColor,
-          "--neon-second-color": neonColors.secondColor,
-          "--card-width": `${dimensions.width}px`,
-          "--card-height": `${dimensions.height}px`,
-          "--card-content-radius": `${borderRadius - borderSize}px`,
-          "--pseudo-element-background-image": `linear-gradient(0deg, ${neonColors.firstColor}, ${neonColors.secondColor})`,
-          "--pseudo-element-width": `${dimensions.width + borderSize * 2}px`,
-          "--pseudo-element-height": `${dimensions.height + borderSize * 2}px`,
-          "--after-blur": `${dimensions.width / 3}px`,
-        } as CSSProperties
-      }
+      style={customStyles}
       className={cn(
         "relative z-10 size-full rounded-[var(--border-radius)]",
-        className,
+        className
       )}
       {...props}
     >
@@ -139,7 +100,7 @@ export const NeonGradientCard: React.FC<NeonGradientCardProps> = ({
           "after:h-[var(--pseudo-element-height)] after:w-[var(--pseudo-element-width)] after:rounded-[var(--border-radius)] after:blur-[var(--after-blur)] after:content-['']",
           "after:bg-[linear-gradient(0deg,var(--neon-first-color),var(--neon-second-color))] after:bg-[length:100%_200%] after:opacity-80",
           "after:animate-background-position-spin",
-          "dark:bg-neutral-900",
+          "dark:bg-neutral-900"
         )}
       >
         {children}
