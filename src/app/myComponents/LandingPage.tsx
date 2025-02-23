@@ -18,7 +18,7 @@ export const LandingPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    fetch("http://localhost:5002/codes")
+    fetch("https://kahoot-backend-pi.vercel.app/codes")
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched game codes:", data);

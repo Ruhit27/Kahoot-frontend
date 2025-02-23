@@ -22,7 +22,7 @@ export default function AdminQuestionCard() {
     try {
       setLoading(true);
       const response = await axios.get<Quiz[]>(
-        "http://localhost:5002/getAllQuizz"
+        "https://kahoot-backend-pi.vercel.app/getAllQuizz"
       );
       setQuizzes(response.data);
       setError(null);

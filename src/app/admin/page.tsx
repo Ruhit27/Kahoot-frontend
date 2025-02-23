@@ -24,7 +24,9 @@ export default function Admin() {
   const handleGenerateCode = async () => {
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5002/generateCode");
+      const res = await axios.post(
+        "https://kahoot-backend-pi.vercel.app/generateCode"
+      );
       const generatedCode = res.data.code; // Assuming the response contains a field `code`
       setCode(generatedCode);
 

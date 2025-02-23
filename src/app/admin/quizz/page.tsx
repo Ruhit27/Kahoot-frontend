@@ -29,11 +29,14 @@ const QuizAdmin = () => {
 
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:5002/createQuizz", {
-        question,
-        options,
-        answer,
-      });
+      const response = await axios.post(
+        "https://kahoot-backend-pi.vercel.app/createQuizz",
+        {
+          question,
+          options,
+          answer,
+        }
+      );
 
       if (response.status === 201) {
         toast.success("✅ Quiz Created Successfully!", {

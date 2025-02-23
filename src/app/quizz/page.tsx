@@ -22,7 +22,7 @@ export default function QuizApp() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5002/getAllQuizz")
+      .get("https://kahoot-backend-pi.vercel.app/getAllQuizz")
       .then((response) => {
         setQuizzes(response.data);
       })
