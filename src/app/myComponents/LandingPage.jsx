@@ -118,7 +118,9 @@ export const LandingPage = () => {
           </button>
         </div>
       </NeonGradientCard>
-      <Link href={"/AboutUs"}>Created By: Sam</Link>
+      <Link className="mt-2" href={"/about"}>
+        Created By: Majharul Islam Ruhit
+      </Link>
     </div>
   );
 };
