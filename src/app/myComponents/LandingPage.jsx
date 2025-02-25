@@ -14,6 +14,17 @@ export const LandingPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
+  const [hovered, setHovered] = useState(false);
+  const [bounce, setBounce] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBounce(true);
+      setTimeout(() => setBounce(false), 800);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     fetch("https://kahoot-backend-pi.vercel.app/codes")
@@ -118,9 +129,51 @@ export const LandingPage = () => {
           </button>
         </div>
       </NeonGradientCard>
-      <Link className="mt-2" href={"/about"}>
-        Created By: Majharul Islam Ruhit
-      </Link>
+      <div className="flex justify-center mt-8 mb-6">
+        <Link href="/about">
+          <div
+            className={`relative px-6 py-3 font-bold text-black group rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 cursor-pointer transition-all duration-300 ease-in-out overflow-hidden ${
+              bounce ? "animate-bounce" : ""
+            }`}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          >
+            <span
+              className={`absolute w-0 h-0 transition-all duration-300 ease-out bg-white rounded-full group-hover:w-full group-hover:h-full opacity-10`}
+            ></span>
+            <span className="relative flex items-center">
+              <span
+                className={`transition-all duration-200 ${
+                  hovered ? "translate-x-2" : ""
+                }`}
+              >
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-green-400 font-mono">
+                  &lt;Created By/&gt;
+                </span>{" "}
+                <span className="font-bold text-white">
+                  Majharul Islam Ruhit
+                </span>
+              </span>
+              <span className="mx-2 text-white">&</span>
+              <span
+                className={`transition-all duration-200 ${
+                  hovered ? "-translate-x-2" : ""
+                }`}
+              >
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-400 font-mono">
+                  &lt;Designed By/
+                </span>{" "}
+                <span className="font-bold text-white">Junaid Javed</span>
+              </span>
+            </span>
+            <div
+              className={`absolute bottom-0 left-0 w-full h-1 bg-white transition-all duration-300 ${
+                hovered ? "opacity-40" : "opacity-0"
+              }`}
+            ></div>
+          </div>
+        </Link>
+      </div>
     </div>
   );
 };
